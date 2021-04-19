@@ -34,6 +34,7 @@
   </target>
 
   <target name="generate-lcmtypes">
+    <mkdir dir="build"/>
     <exec executable="make" dir="${basedir}">
       <arg line="-f Makefile.lcmgen" />
     </exec>
@@ -77,8 +78,8 @@
        destdir="build"
        compiler="extJavac"
        deprecation="yes"
-       source="1.5"
-       target="1.5"
+       source="1.6"
+       target="1.6"
        >
     </javac>
   </target>

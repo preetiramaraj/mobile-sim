@@ -1,6 +1,6 @@
 # Only add your directories to this folder if you are 100% sure that
 # it will always compile without warnings.
-SUBDIRS = common lcmtypes sick hokuyo gps18 spacenav kvh ublox
+SUBDIRS = common lcmtypes 
 
 all:
 	@for dir in $(SUBDIRS) ; do \
