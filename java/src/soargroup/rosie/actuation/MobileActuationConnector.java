@@ -7,7 +7,7 @@ import java.io.IOException;
 import java.util.Properties;
 
 import edu.umich.rosie.soar.AgentConnector;
-import edu.umich.rosie.soar.SoarAgent;
+import edu.umich.rosie.soar.SoarClient;
 import edu.umich.rosie.soar.SoarUtil;
 import april.jmat.LinAlg;
 import april.util.TimeUtil;
@@ -38,8 +38,8 @@ public class MobileActuationConnector extends AgentConnector implements LCMSubsc
     private boolean killThread = false;
     private ControlLawThread sendCommandThread = null;
     
-    public MobileActuationConnector(SoarAgent agent, Properties props){
-    	super(agent);
+    public MobileActuationConnector(SoarClient client, Properties props){
+    	super(client);
 
         lcm = LCM.getSingleton();
         

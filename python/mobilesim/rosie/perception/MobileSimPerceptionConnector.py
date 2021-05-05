@@ -13,8 +13,8 @@ from .Robot import Robot
 
 class MobileSimPerceptionConnector(AgentConnector):
     # TODO: Implement eye position?
-    def __init__(self, agent, lcm):
-        super().__init__(agent)
+    def __init__(self, client, lcm):
+        super().__init__(client)
 
         self.lcm = lcm
         self.lcm_handler = lambda channel, data: self.message_received(channel, data)
@@ -50,11 +50,11 @@ class MobileSimPerceptionConnector(AgentConnector):
 
         self.lock.acquire()
 
-        self.robot.set_moving_status(self.agent.connectors["actuation"].get_moving_status())
+        self.robot.set_moving_status(self.client.connectors["actuation"].get_moving_status())
         self.robot.update_wm(input_link, svs_commands)
         self.objects.update_wm(input_link, svs_commands)
         if len(svs_commands) > 0:
-            self.agent.agent.SendSVSInput("\n".join(svs_commands))
+            self.client.agent.SendSVSInput("\n".join(svs_commands))
 
         self.lock.release()
 
@@ -67,7 +67,7 @@ class MobileSimPerceptionConnector(AgentConnector):
         self.robot.remove_from_wm(svs_commands)
         self.objects.remove_from_wm(svs_commands)
         if len(svs_commands) > 0:
-            self.agent.agent.SendSVSInput("\n".join(svs_commands))
+            self.client.agent.SendSVSInput("\n".join(svs_commands))
 
         self.lock.release()
 

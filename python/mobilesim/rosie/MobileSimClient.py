@@ -2,16 +2,16 @@ import sys
 
 import Python_sml_ClientInterface as sml
 
-from rosie import RosieAgent
+from rosie import RosieClient
 
 from mobilesim.rosie import LCMConnector, MobileSimCommandConnector, MobileSimPerceptionConnector, MobileSimActuationConnector
 
 from string import digits
 strip_digits = lambda s: s.translate(str.maketrans('', '', digits))
 
-class MobileSimAgent(RosieAgent):
+class MobileSimClient(RosieClient):
     def __init__(self, config_filename=None, **kwargs):
-        RosieAgent.__init__(self, config_filename=config_filename, domain="magicbot", custom_command_connector=True, **kwargs)
+        RosieClient.__init__(self, config_filename=config_filename, domain="magicbot", custom_command_connector=True, **kwargs)
 
         self.lcm_conn = LCMConnector(self)
         self.add_connector("lcm", self.lcm_conn)

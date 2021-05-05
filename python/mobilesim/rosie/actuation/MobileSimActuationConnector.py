@@ -9,8 +9,8 @@ from mobilesim.lcmtypes import control_law_status_t
 CONTROL_LAW_RATE = 10
 
 class MobileSimActuationConnector(AgentConnector):
-    def __init__(self, agent, lcm):
-        AgentConnector.__init__(self, agent)
+    def __init__(self, client, lcm):
+        AgentConnector.__init__(self, client)
 
         self.lock = threading.Lock()
         self.lcm = lcm

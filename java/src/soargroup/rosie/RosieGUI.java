@@ -24,13 +24,13 @@ import edu.umich.rosie.language.InternalMessagePasser;
 //import edu.umich.rosie.language.ScriptPanel;
 import edu.umich.rosie.language.InstructorMessagePanel;
 import edu.umich.rosie.language.LanguageConnector;
-import edu.umich.rosie.soar.SoarAgent;
+import edu.umich.rosie.soar.SoarClient;
 import april.util.GetOpt;
 import april.util.StringUtil;
 
 public class RosieGUI extends JFrame
 {
-	private SoarAgent soarAgent;
+	private SoarClient soarClient;
 
 	private JButton startStopButton;
 	private JButton stopRobotButton;
@@ -49,29 +49,29 @@ public class RosieGUI extends JFrame
         addWindowListener(new WindowAdapter() {
         	public void windowClosing(WindowEvent w) {
                 System.out.println("WINDOW CLOSING");
-        		soarAgent.kill();
+        		soarClient.kill();
         	}
      	});
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-    	soarAgent = new SoarAgent(props);
+    	soarClient = new SoarClient(props);
 
-    	actuation = new MobileActuationConnector(soarAgent, props);
-    	soarAgent.addConnector(actuation);
+    	actuation = new MobileActuationConnector(soarClient, props);
+    	soarClient.addConnector(actuation);
 
-    	perception = new MobilePerceptionConnector(soarAgent, props);
-    	soarAgent.addConnector(perception);
+    	perception = new MobilePerceptionConnector(soarClient, props);
+    	soarClient.addConnector(perception);
     	
     	InternalMessagePasser messagePasser = new InternalMessagePasser();
     	
-    	language = new LanguageConnector(soarAgent, props, messagePasser);
-    	soarAgent.addConnector(language);
+    	language = new LanguageConnector(soarClient, props, messagePasser);
+    	soarClient.addConnector(language);
 
-    	ChatPanel chat = new ChatPanel(soarAgent, this, messagePasser);
+    	ChatPanel chat = new ChatPanel(soarClient, this, messagePasser);
 
     	setupMenu();
 
-    	soarAgent.createAgent();
+    	soarClient.createAgent();
 
     	add(chat);
 
@@ -84,7 +84,7 @@ public class RosieGUI extends JFrame
 		//}
 
 
-//    	CommandPanel commandPanel = new CommandPanel(soarAgent);
+//    	CommandPanel commandPanel = new CommandPanel(soarClient);
 //
 //    	JSplitPane splitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT, chat, commandPanel);
 //    	splitPane.setDividerLocation(400);
@@ -99,18 +99,18 @@ public class RosieGUI extends JFrame
     	startStopButton = new JButton("START");
         startStopButton.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent arg0) {
-				if(soarAgent.isRunning()){
+				if(soarClient.isRunning()){
 					startStopButton.setText("START");
-					soarAgent.stop();
+					soarClient.stop();
 				} else {
 					startStopButton.setText("STOP");
-					soarAgent.start();
+					soarClient.start();
 				}
 			}
         });
         menuBar.add(startStopButton);
 
-    	menuBar.add(new AgentMenu(soarAgent));
+    	menuBar.add(new AgentMenu(soarClient));
 
     	stopRobotButton = new JButton("STOP");
     	stopRobotButton.setBackground(Color.red);

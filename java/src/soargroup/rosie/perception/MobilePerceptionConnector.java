@@ -10,7 +10,7 @@ import java.util.Properties;
 import java.nio.ByteBuffer;
 
 import edu.umich.rosie.soar.AgentConnector;
-import edu.umich.rosie.soar.SoarAgent;
+import edu.umich.rosie.soar.SoarClient;
 import edu.umich.rosie.soar.SoarUtil;
 import edu.umich.rosie.soarobjects.Pose;
 import april.jmat.LinAlg;
@@ -36,8 +36,8 @@ public class MobilePerceptionConnector extends AgentConnector implements LCMSubs
 
     private Robot robot;
 
-    public MobilePerceptionConnector(SoarAgent agent, Properties props){
-    	super(agent);
+    public MobilePerceptionConnector(SoarClient client, Properties props){
+    	super(client);
 
 		objectManager = new WorldObjectManager();
 
@@ -100,9 +100,9 @@ public class MobilePerceptionConnector extends AgentConnector implements LCMSubs
     }
 
     private void updateRobot(){
-    	robot.updateMovingState(soarAgent.getConnector(MobileActuationConnector.class).getMovingState());
+    	robot.updateMovingState(soarClient.getConnector(MobileActuationConnector.class).getMovingState());
     	if(!robot.isAdded()){
-    		robot.addToWM(soarAgent.getAgent().GetInputLink());
+    		robot.addToWM(soarClient.getAgent().GetInputLink());
     	} else {
     		robot.updateWM();
     	}
@@ -113,11 +113,11 @@ public class MobilePerceptionConnector extends AgentConnector implements LCMSubs
 		if(objectManager.isAdded()){
 			objectManager.updateWM(svsCommands);
 		} else {
-			objectManager.addToWM(soarAgent.getAgent().GetInputLink(), svsCommands);
+			objectManager.addToWM(soarClient.getAgent().GetInputLink(), svsCommands);
 		}
 
     	if(svsCommands.length() > 0){
-    		soarAgent.getAgent().SendSVSInput(svsCommands.toString());
+    		soarClient.getAgent().SendSVSInput(svsCommands.toString());
     	}
     }
 
@@ -126,7 +126,7 @@ public class MobilePerceptionConnector extends AgentConnector implements LCMSubs
     	StringBuilder svsCommands = new StringBuilder();
 		objectManager.removeFromWM(svsCommands);
     	if(svsCommands.length() > 0){
-    		soarAgent.getAgent().SendSVSInput(svsCommands.toString());
+    		soarClient.getAgent().SendSVSInput(svsCommands.toString());
     	}
 
 		robot.removeFromWM();
