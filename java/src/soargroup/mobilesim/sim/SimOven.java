@@ -48,9 +48,9 @@ public class SimOven extends SimShelves {
 		}
 
 		// Create light indicator to indicate whether oven is on or off
-		double light_dx = scale_xyz[0]*0.40;
-		double light_dy = scale_xyz[1]-1.35;
-		double light_z  = (scale_xyz[2] - LIGHT_H)*0.5;
+		double light_dx = scale_xyz[0]*0.30;
+		double light_dy = scale_xyz[1]*0.40;
+		double light_z  = (scale_xyz[2])*0.5;
 		double light_rad = Math.min(scale_xyz[0], scale_xyz[1])*0.1;
 		VzMesh.Style lightStyle = new VzMesh.Style(activatable.isOn() ? Color.red : Color.black);
 		ObjectModels.addCyl(vc,  light_dx,  light_dy, light_z, light_rad, LIGHT_H, lightStyle);
@@ -60,11 +60,11 @@ public class SimOven extends SimShelves {
 		String text = String.format("%s%s\n", tf,((int)TEMPERATURE));
 
 		VzText vzText = new VzText(text);
-		double[] textLoc = new double[]{light_dx-0.90, light_dy+0.40, light_z + 0.25};
+		double[] textLoc = new double[]{light_dx-0.60, light_dy-0.60, light_z + 0.15};
 		// Only show temperature when the oven is on
 		if(activatable.isOn())
 		{
-			vc.add(new VisChain(LinAlg.rotateZ(Math.PI*2), LinAlg.translate(textLoc), LinAlg.scale(0.017), vzText));
+			vc.add(new VisChain(LinAlg.rotateZ(Math.PI/2), LinAlg.translate(textLoc), LinAlg.scale(0.017), vzText));
 		}
 
 		return vc;
